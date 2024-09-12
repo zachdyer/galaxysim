@@ -148,31 +148,39 @@ function generatePlanets(seed) {
     return planets;
 }
 
+function addCardData(data){
+    const entry = document.createElement("div")
+    entry.classList.add("card-text")
+    entry.textContent = data
+    document.getElementById("card-data").appendChild(entry)
+}
+
 function updateStar(seed) {
+    document.getElementById("card-data").innerHTML = ""
     const starData = generateStar(seed);  // Procedurally generate the star based on seed
-    console.log(starData)
     // Update the page with star data
-    document.getElementById("star-image").src = starData.image;
-    document.getElementById("star-name").textContent = starData.name;
-    document.getElementById("star-color").textContent = `Color: ${starData.color}`;
-    document.getElementById("star-seed").textContent = `Star Seed: ${starData.seed}`
+    document.getElementById("navigator-image").src = starData.image;
+    addCardData(`Star Name: ${starData.name}`)
+    addCardData(`Star Color: ${starData.color}`)
+    addCardData(`Star Seed: ${starData.seed}`)
     
     // Update planet list
     // Loop through each planet and add a button for it
-    document.querySelector(".planet-buttons").innerHTML = ""
+    document.querySelector(".navigator-controls").innerHTML = ""
     starData.planets.forEach(planet => {
         const button = document.createElement("button");
         button.classList.add("btn", "btn-primary");  // Bootstrap button styling
         button.textContent = planet.name;
         button.onclick = () => {
+            document.querySelector(".card-data").innerHTML = ""
             // Placeholder action for now
             // Update the page with star data
-            document.getElementById("star-image").src = planet.image;
-            document.getElementById("star-name").textContent = planet.name;
-            document.getElementById("star-color").textContent = `Type: ${planet.type}`;
-            document.getElementById("star-seed").textContent = `Atmosphere: ${planet.atmosphere}`
+            document.getElementById("navigator-image").src = planet.image;
+            addCardData(`Planet Name: ${planet.name}`)
+            addCardData(`Planet Type: ${planet.type}`)
+            addCardData(`Planet Atmosphere: ${planet.atmosphere}`)
         };
-        document.querySelector(".planet-buttons").appendChild(button);
+        document.querySelector(".navigator-controls").appendChild(button);
     });
 }
 
