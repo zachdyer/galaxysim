@@ -167,12 +167,17 @@ function updateStar(seed) {
     // Update planet list
     // Loop through each planet and add a button for it
     document.querySelector(".navigator-controls").innerHTML = ""
+    prevStarBtn()
+    currentStarBtn()
+    nextStarBtn()
     starData.planets.forEach(planet => {
         const button = document.createElement("button");
         button.classList.add("btn", "btn-primary");  // Bootstrap button styling
-        button.textContent = planet.name;
+        button.innerHTML = `<i class="bi bi-globe-asia-australia"></i> ${planet.name}`;
         button.onclick = () => {
-            document.querySelector(".card-data").innerHTML = ""
+            document.getElementById("card-data").innerHTML = ""
+            document.querySelector(".navigator-controls").innerHTML = ""
+            currentStarBtn()
             // Placeholder action for now
             // Update the page with star data
             document.getElementById("navigator-image").src = planet.image;
@@ -180,29 +185,43 @@ function updateStar(seed) {
             addCardData(`Planet Type: ${planet.type}`)
             addCardData(`Planet Atmosphere: ${planet.atmosphere}`)
         };
-        document.querySelector(".navigator-controls").appendChild(button);
+        document.querySelector(".navigator-controls").appendChild(button)
     });
 }
 
-let currentSeed = 0;  // Initial seed
-
-// Event listeners for navigation buttons
-document.getElementById("previous-star").addEventListener("click", () => {
-    if (currentSeed > 0) {  // Only subtract if currentSeed is greater than 0
-        currentSeed -= 1;
+function currentStarBtn() {
+    const currentStar = document.createElement("div")
+    currentStar.classList.add("btn", "btn-primary")
+    currentStar.innerHTML = `<i class="bi bi-star-fill"></i> Current Star`
+    currentStar.onclick = () => {
+        updateStar(currentSeed)
+    }
+    document.querySelector(".navigator-controls").appendChild(currentStar)
+}
+function prevStarBtn(){
+    const prevStar = document.createElement("button")
+    prevStar.classList.add("btn", "btn-primary")
+    prevStar.innerHTML = `<i class="bi bi-star-fill"></i> Previous Star`
+    prevStar.onclick = () => {
+        if (currentSeed > 0) {  // Only subtract if currentSeed is greater than 0
+            currentSeed -= 1;
+            updateStar(currentSeed);
+        }
+    }
+    document.querySelector(".navigator-controls").appendChild(prevStar)
+}
+function nextStarBtn() {
+    const nextStar = document.createElement("div")
+    nextStar.classList.add("btn", "btn-primary")
+    nextStar.innerHTML = `<i class="bi bi-star-fill"></i> Next Star`
+    nextStar.onclick = () => {
+        currentSeed += 1;
         updateStar(currentSeed);
     }
-});
+    document.querySelector(".navigator-controls").appendChild(nextStar)
+}
 
-
-document.getElementById("current-star").addEventListener("click", () => {
-    updateStar(currentSeed);
-});
-
-document.getElementById("next-star").addEventListener("click", () => {
-    currentSeed += 1;
-    updateStar(currentSeed);
-});
+let currentSeed = 0;  // Initial seed
 
 updateStar(currentSeed);
 
