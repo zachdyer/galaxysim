@@ -30,6 +30,7 @@ let starImages = {
 };
 
 function generateStarName(seed) {
+    seed = Math.abs(seed)
     const prefixes = ['Zeta', 'Alpha', 'Gamma', 'Delta', 'Sigma', 'Orion', 'Vega'];
     const suffixes = ['Prime', 'Nova', 'Centauri', 'Major', 'X', 'Nebula', 'II'];
     
@@ -56,7 +57,6 @@ function generateStar(seed) {
     return star;
 }
 
-
 function generateStarColor(seed) {
     let rng = new Random(seed);
     let randomValue = rng.nextFloat(0, 1);  // More random value generated from seed
@@ -70,6 +70,7 @@ function generateStarColor(seed) {
 
 
 function generatePlanetName(seed, index) {
+    seed = Math.abs(seed)
     const prefixes = ['Aqua', 'Terra', 'Luna', 'Xen', 'Vulcan', 'Gliese', 'Kepler'];
     const suffixes = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
     
@@ -128,6 +129,7 @@ function generatePlanetProperties(type) {
 }
 
 function generatePlanets(seed) {
+    seed = Math.abs(seed)
     let rng = new Random(seed + 1);  // Adjust seed for planet generation
     let numberOfPlanets = rng.nextInt(1, 6);  // Number of planets between 1 and 6
     let planets = [];
@@ -178,9 +180,12 @@ let currentSeed = 0;  // Initial seed
 
 // Event listeners for navigation buttons
 document.getElementById("previous-star").addEventListener("click", () => {
-    currentSeed -= 1;
-    updateStar(currentSeed);
+    if (currentSeed > 0) {  // Only subtract if currentSeed is greater than 0
+        currentSeed -= 1;
+        updateStar(currentSeed);
+    }
 });
+
 
 document.getElementById("current-star").addEventListener("click", () => {
     updateStar(currentSeed);
