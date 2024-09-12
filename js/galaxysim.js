@@ -31,8 +31,8 @@ let starImages = {
 
 function generateStarName(seed) {
     seed = Math.abs(seed)
-    const prefixes = ['Zeta', 'Alpha', 'Gamma', 'Delta', 'Sigma', 'Orion', 'Vega'];
-    const suffixes = ['Prime', 'Nova', 'Centauri', 'Major', 'X', 'Nebula', 'II'];
+    const prefixes = ['Zeta', 'Alpha', 'Gamma', 'Delta', 'Sigma', 'Orion', 'Vega']
+    const suffixes = ['Prime', 'Nova', 'Centauri', 'Major', 'X', 'Nebula', 'II']
     
     let rng = new Random(seed);
     const prefix = prefixes[rng.nextInt(0, prefixes.length)];
@@ -43,7 +43,6 @@ function generateStarName(seed) {
 
 function generateStar(seed) {
     let rng = new Random(seed);
-    console.log(rng.nextFloat(0,1), seed)
     let starColor = generateStarColor(rng.nextFloat(0, 1));
     
     let star = {
@@ -71,8 +70,8 @@ function generateStarColor(seed) {
 
 function generatePlanetName(seed, index) {
     seed = Math.abs(seed)
-    const prefixes = ['Aqua', 'Terra', 'Luna', 'Xen', 'Vulcan', 'Gliese', 'Kepler'];
-    const suffixes = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII'];
+    const prefixes = ['Aqua', 'Terra', 'Luna', 'Xen', 'Vulcan', 'Gliese', 'Kepler']
+    const suffixes = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
     
     let rng = new Random(seed + index);  // Slightly modify the seed for each planet
     const prefix = prefixes[rng.nextInt(0, prefixes.length)];
@@ -129,7 +128,6 @@ function generatePlanetProperties(type) {
 }
 
 function generatePlanets(seed) {
-    seed = Math.abs(seed)
     let rng = new Random(seed + 1);  // Adjust seed for planet generation
     let numberOfPlanets = rng.nextInt(1, 6);  // Number of planets between 1 and 6
     let planets = [];
@@ -141,11 +139,37 @@ function generatePlanets(seed) {
         planets.push({
             name: generatePlanetName(seed, i),
             type: type,
-            ...properties  // Spread the additional planet properties
+            ...properties,
+            pointsOfInterest: generatePointsOfInterest(seed + i)  // Attach POIs to the planet
         });
     }
-    
     return planets;
+}
+
+function generatePointsOfInterest(seed) {
+    let rng = new Random(seed);  // Use the seed to generate consistent but varied POIs
+    const allPOIs = [
+        { name: "Mountain Range", action: "Explore", description: "A vast mountain range with hidden resources." },
+        { name: "Underground Cave", action: "Mine", description: "A deep cave filled with minerals." },
+        { name: "Alien Ruins", action: "Investigate", description: "Ancient ruins of an unknown civilization." },
+        { name: "Volcanic Region", action: "Survey", description: "A fiery volcanic landscape full of danger and rewards." },
+        { name: "Frozen Lake", action: "Research", description: "A mysterious frozen lake with possible signs of life." }
+    ];
+
+    // Randomly shuffle the POIs or select them randomly
+    const numPOIs = rng.nextInt(1, allPOIs.length);  // Select a random number of POIs between 1 and the total
+    const selectedPOIs = [];
+
+    // Select POIs based on the random seed
+    for (let i = 0; i < numPOIs; i++) {
+        const randomIndex = rng.nextInt(0, allPOIs.length);  // Select a random index for a POI
+        selectedPOIs.push(allPOIs[randomIndex]);
+
+        // Remove the selected POI to avoid duplicates
+        allPOIs.splice(randomIndex, 1);  // Remove from the original array to ensure uniqueness
+    }
+
+    return selectedPOIs;
 }
 
 function addCardData(data){
@@ -176,14 +200,19 @@ function updateStar(seed) {
         button.innerHTML = `<i class="bi bi-globe-asia-australia"></i> ${planet.name}`;
         button.onclick = () => {
             document.getElementById("card-data").innerHTML = ""
-            document.querySelector(".navigator-controls").innerHTML = ""
-            currentStarBtn()
             // Placeholder action for now
             // Update the page with star data
             document.getElementById("navigator-image").src = planet.image;
             addCardData(`Planet Name: ${planet.name}`)
             addCardData(`Planet Type: ${planet.type}`)
             addCardData(`Planet Atmosphere: ${planet.atmosphere}`)
+            document.querySelector(".navigator-controls").innerHTML = ""
+            currentStarBtn()
+            const poi = document.createElement("button")
+            poi.classList.add("btn", "btn-primary")
+            poi.innerHTML = `${planet.pointsOfInterest[0].name}`
+            console.log(planet)
+            document.querySelector(".navigator-controls").appendChild(poi)
         };
         document.querySelector(".navigator-controls").appendChild(button)
     });
