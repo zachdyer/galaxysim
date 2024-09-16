@@ -168,21 +168,21 @@ function generatePlanets(seed) {
 
 const poiPools = {
     "Terrestrial": [
-        { name: "Mountain Range", action: "Explore", description: "A vast mountain range with hidden resources." },
+        { name: "Mountain Range", action: "Explore", description: "A vast mountain range with hidden resources.", img: "img/pois/mountain-range-poi.webp" },
         { name: "Underground Cave", action: "Mine", description: "A deep cave filled with minerals.", img: "img/pois/underground-cave-poi.webp" },
-        { name: "Alien Ruins", action: "Investigate", description: "Ancient ruins of an unknown civilization." }
+        { name: "Alien Ruins", action: "Investigate", description: "Ancient ruins of an unknown civilization.", img: "img/pois/alien-ruins-poi.webp" }
     ],
     "Gas Giant": [
-        { name: "Storm Front", action: "Analyze", description: "A massive storm raging across the atmosphere." },
+        { name: "Storm Front", action: "Analyze", description: "A massive storm raging across the atmosphere.", img: "img/pois/storm-front-poi.webp"},
         { name: "Floating Island", action: "Research", description: "A rare floating island suspended in the atmosphere.", img: "img/pois/floating-island-poi.webp" }
     ],
     "Ice Planet": [
-        { name: "Frozen Lake", action: "Research", description: "A mysterious frozen lake with possible signs of life." },
+        { name: "Frozen Lake", action: "Research", description: "A mysterious frozen lake with possible signs of life.", img: "img/pois/frozen-lake-poi.webp" },
         { name: "Glacier Field", action: "Survey", description: "A vast field of ice, ideal for mineral extraction.", img: "img/pois/glacier-field-poi.webp" }
     ],
     "Lava Planet": [
         { name: "Volcanic Region", action: "Survey", description: "A fiery volcanic landscape full of danger and rewards.", img: "img/pois/volcanic-region-poi.webp" },
-        { name: "Lava River", action: "Analyze", description: "A flowing river of molten lava, rich in rare minerals." }
+        { name: "Lava River", action: "Analyze", description: "A flowing river of molten lava, rich in rare minerals.", img: "img/pois/lava-river-poi.webp" }
     ],
     "Desert Planet": [
         { name: "Sand Dunes", action: "Explore", description: "A vast desert with potential hidden resources.", img: "img/pois/sand-dunes-poi.webp" },
