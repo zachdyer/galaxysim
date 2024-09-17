@@ -1,7 +1,7 @@
 class Random {
     constructor(seed) {
         // Modify the seed to spread them out
-        this.seed = (seed * 9301 + 49297) % 233280;  // Example modification
+        this.seed = (seed * 9301 + 49297) % 233281;  // Example modification
     }
     
     next() {
@@ -44,7 +44,7 @@ function generateStarName(seed) {
 let cachedStar = null;  // Global variable to cache the star
 
 function clearCache() {
-    cachedStar = null;
+    cachedStar = null
 }
 
 
@@ -52,13 +52,13 @@ function generateStar(seed) {
     // Check if the star with this seed is already cached
     if (cachedStar && cachedStar.seed === seed) {
         console.log("Using cached star data for seed:", seed);
-        return cachedStar;  // Return the cached star if it exists
+        return cachedStar  // Return the cached star if it exists
     }
 
-    console.log("Generating new star data for seed:", seed);
+    console.log("Generating new star data for seed:", seed)
     
-    let rng = new Random(seed);
-    let starColor = generateStarColor(rng.nextFloat(0, 1));
+    let rng = new Random(seed)
+    let starColor = generateStarColor(rng.nextFloat(0, 1))
     
     let star = {
         name: generateStarName(seed),
@@ -66,7 +66,7 @@ function generateStar(seed) {
         image: starImages[starColor],  // Assign the image based on the star's color
         planets: generatePlanets(seed),  // Planets are generated here
         seed: seed
-    };
+    }
     
     // Cache the generated star
     cachedStar = star;
@@ -301,19 +301,22 @@ function currentStarBtn() {
     currentStar.innerHTML = `<i class="bi bi-star-fill"></i> Current Star`;
     currentStar.onclick = () => {
         updateStar(currentSeed);  // Use cached data when updating the star view
-    };
+    }
     document.querySelector(".navigator-controls").appendChild(currentStar);
 }
+
+const galaxySize = 1000000
 
 function prevStarBtn(){
     const prevStar = document.createElement("button")
     prevStar.classList.add("btn", "btn-warning")
     prevStar.innerHTML = `<i class="bi bi-star-fill"></i> Previous Star`
     prevStar.onclick = () => {
-        if (currentSeed > 0) {  // Only subtract if currentSeed is greater than 0
-            currentSeed -= 1;
-            updateStar(currentSeed);
+        currentSeed--
+        if (currentSeed < 0) {  // Only subtract if currentSeed is greater than 0
+            currentSeed = galaxySize
         }
+        updateStar(currentSeed)
     }
     document.querySelector(".navigator-controls").appendChild(prevStar)
 }
@@ -322,8 +325,11 @@ function nextStarBtn() {
     nextStar.classList.add("btn", "btn-warning")
     nextStar.innerHTML = `<i class="bi bi-star-fill"></i> Next Star`
     nextStar.onclick = () => {
-        currentSeed += 1;
-        updateStar(currentSeed);
+        currentSeed++
+        if(currentSeed > galaxySize) {
+            currentSeed = 0
+        }
+        updateStar(currentSeed)
     }
     document.querySelector(".navigator-controls").appendChild(nextStar)
 }
