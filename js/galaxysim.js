@@ -31,8 +31,14 @@ let starImages = {
 
 function generateStarName(seed) {
     seed = Math.abs(seed)
-    const prefixes = ['Zeta', 'Alpha', 'Gamma', 'Delta', 'Sigma', 'Orion', 'Vega']
-    const suffixes = ['Prime', 'Nova', 'Centauri', 'Major', 'X', 'Nebula', 'II']
+    const prefixes = [
+        'Zeta', 'Alpha', 'Gamma', 'Delta', 'Sigma', 'Orion', 'Vega',
+        'Beta', 'Theta', 'Epsilon', 'Lambda', 'Kappa', 'Mu', 'Nu'
+    ];
+    const suffixes = [
+        'Prime', 'Nova', 'Centauri', 'Major', 'X', 'Nebula', 'II',
+        'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'
+    ];
     
     let rng = new Random(seed);
     const prefix = prefixes[rng.nextInt(0, prefixes.length)];
