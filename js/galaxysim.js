@@ -3,12 +3,12 @@ class Random {
         // Modify the seed to spread them out
         this.seed = (seed * 9301 + 49297) % 233281;  // Example modification
     }
-    
+
     next() {
         this.seed = (this.seed * 1664525 + 1013904223) % 4294967296;
         return this.seed / 4294967296;  // Return a float between 0 and 1
     }
-    
+
     nextFloat(min, max) {
         return min + this.next() * (max - min);
     }
@@ -39,11 +39,11 @@ function generateStarName(seed) {
         'Prime', 'Nova', 'Centauri', 'Major', 'X', 'Nebula', 'II',
         'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'
     ];
-    
+
     let rng = new Random(seed);
     const prefix = prefixes[rng.nextInt(0, prefixes.length)];
     const suffix = suffixes[rng.nextInt(0, suffixes.length)];
-    
+
     return `${prefix} ${suffix}`;
 }
 
@@ -62,10 +62,10 @@ function generateStar(seed) {
     }
 
     console.log("Generating new star data for seed:", seed)
-    
+
     let rng = new Random(seed)
     let starColor = generateStarColor(rng.nextFloat(0, 1))
-    
+
     let star = {
         name: generateStarName(seed),
         color: starColor,
@@ -73,10 +73,10 @@ function generateStar(seed) {
         planets: generatePlanets(seed),  // Planets are generated here
         seed: seed
     }
-    
+
     // Cache the generated star
     cachedStar = star;
-    
+
     return star;
 }
 
@@ -84,7 +84,7 @@ function generateStar(seed) {
 function generateStarColor(seed) {
     let rng = new Random(seed);
     let randomValue = rng.nextFloat(0, 1);  // More random value generated from seed
-    
+
     if (randomValue < 0.1) return 'Red';      // 10% chance for Red
     else if (randomValue < 0.3) return 'Orange';  // 20% chance for Orange
     else if (randomValue < 0.5) return 'Yellow';  // 20% chance for Yellow
@@ -97,17 +97,17 @@ function generatePlanetName(seed, index) {
     seed = Math.abs(seed)
     const prefixes = ['Aqua', 'Terra', 'Luna', 'Xen', 'Vulcan', 'Gliese', 'Kepler']
     const suffixes = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII']
-    
+
     let rng = new Random(seed + index);  // Slightly modify the seed for each planet
     const prefix = prefixes[rng.nextInt(0, prefixes.length)];
     const suffix = suffixes[rng.nextInt(0, suffixes.length)];
-    
+
     return `${prefix} ${suffix}`;
 }
 
 function generatePlanetType(seed, index) {
     const planetTypes = ['Terrestrial', 'Gas Giant', 'Ice Planet', 'Lava Planet', 'Desert Planet'];
-    
+
     let rng = new Random(seed + index);  // Slightly adjust the seed for each planet
     return planetTypes[rng.nextInt(0, planetTypes.length)];
 }
@@ -156,11 +156,11 @@ function generatePlanets(seed) {
     let rng = new Random(seed + 1);  // Adjust seed for planet generation
     let numberOfPlanets = rng.nextInt(1, 6);  // Generate between 1 and 6 planets
     let planets = [];
-    
+
     for (let i = 0; i < numberOfPlanets; i++) {
         let type = generatePlanetType(seed, i);
         let properties = generatePlanetProperties(type);
-        
+
         planets.push({
             name: generatePlanetName(seed, i),
             type: type,
@@ -168,7 +168,7 @@ function generatePlanets(seed) {
             pointsOfInterest: generatePointsOfInterest(type, seed + i)  // Generate POIs based on planet type
         });
     }
-    
+
     return planets;  // Return the generated planets
 }
 
@@ -179,7 +179,7 @@ const poiPools = {
         { name: "Alien Ruins", action: "Investigate", description: "Ancient ruins of an unknown civilization.", img: "img/pois/alien-ruins-poi.webp" }
     ],
     "Gas Giant": [
-        { name: "Storm Front", action: "Analyze", description: "A massive storm raging across the atmosphere.", img: "img/pois/storm-front-poi.webp"},
+        { name: "Storm Front", action: "Analyze", description: "A massive storm raging across the atmosphere.", img: "img/pois/storm-front-poi.webp" },
         { name: "Floating Island", action: "Research", description: "A rare floating island suspended in the atmosphere.", img: "img/pois/floating-island-poi.webp" }
     ],
     "Ice Planet": [
@@ -212,7 +212,7 @@ function generatePointsOfInterest(planetType, seed) {
     return selectedPOIs;
 }
 
-function addCardData(data){
+function addCardData(data) {
     const entry = document.createElement("div")
     entry.classList.add("card-text")
     entry.textContent = data
@@ -229,14 +229,14 @@ function updateStar(seed) {
     }
 
     const starData = cachedStar;  // Use the cached star data
-    
+
     // Update the page with star data
     document.getElementById("navigator-image").src = starData.image;
     document.getElementById("navigator-title").innerHTML = `<i class="bi bi-star-fill"></i> ${starData.name}`
     document.getElementById("card-data").innerHTML = "";
     addCardData(`Star Color: ${starData.color}`);
     addCardData(`Star Seed: ${starData.seed}`);
-    
+
     // Update planet list
     document.querySelector(".navigator-controls").innerHTML = "";
     prevStarBtn();
@@ -279,6 +279,7 @@ function updatePlanetView(planet) {
         btn.onclick = () => updatePOIView(poi);  // Drill down to POI view
         navigatorControls.appendChild(btn);  // Append POI button
     });
+    document.getElementById("interaction-controls").innerHTML = "";
 }
 
 function updatePOIView(poi) {
@@ -298,6 +299,32 @@ function updatePOIView(poi) {
     backButton.textContent = "Back to Planet";
     backButton.onclick = () => updatePlanetView(currentPlanet);  // Go back to planet view using `currentPlanet`
     navigatorControls.appendChild(backButton);
+    document.getElementById("interaction-controls").innerHTML = "";
+    addInteractionButtons(poi);
+}
+
+function addInteractionButtons(poi) {
+    const btn = document.createElement("button");
+    btn.classList.add("btn", "btn-success");
+    btn.textContent = `Land on ${poi.name}`;
+    btn.onclick = () => landOnPOI(poi);
+    document.getElementById("interaction-controls").appendChild(btn);
+}
+
+function landOnPOI(poi) {
+    document.getElementById("interaction-controls").innerHTML = "";
+    document.getElementById("player-image").src = "img/player/player-avatar.webp";
+    const btn = document.createElement("button");
+    btn.classList.add("btn", "btn-success");
+    btn.textContent = `Launch from ${poi.name}`;
+    btn.onclick = () => launchFromPOI(poi);
+    document.getElementById("interaction-controls").appendChild(btn);
+}
+
+function launchFromPOI(poi) {
+    document.getElementById("interaction-controls").innerHTML = "";
+    addInteractionButtons(poi);
+    document.getElementById("player-image").src = "img/player/player-spaceship.webp";
 }
 
 
@@ -313,7 +340,7 @@ function currentStarBtn() {
 
 const galaxySize = 1000000
 
-function prevStarBtn(){
+function prevStarBtn() {
     const prevStar = document.createElement("button")
     prevStar.classList.add("btn", "btn-warning")
     prevStar.innerHTML = `<i class="bi bi-star-fill"></i> Previous Star`
@@ -332,7 +359,7 @@ function nextStarBtn() {
     nextStar.innerHTML = `<i class="bi bi-star-fill"></i> Next Star`
     nextStar.onclick = () => {
         currentSeed++
-        if(currentSeed > galaxySize) {
+        if (currentSeed > galaxySize) {
             currentSeed = 0
         }
         updateStar(currentSeed)
@@ -340,9 +367,23 @@ function nextStarBtn() {
     document.querySelector(".navigator-controls").appendChild(nextStar)
 }
 
+let player = {}
+player.maxHealth = 100
+player.health = 100
+document.getElementById("player-health-stat").textContent = `${player.health}/${player.maxHealth}`
+document.getElementById("player-health").setAttribute("style", `width: ${(player.health / player.maxHealth) * 100}%`)
+player.maxEnergy = 100
+player.energy = 100
+document.getElementById("player-energy-stat").textContent = `${player.energy}/${player.maxEnergy}`
+document.getElementById("player-energy").setAttribute("style", `width: ${(player.energy / player.maxEnergy) * 100}%`)
+player.experience = 0
+player.name = prompt("Enter your player name:", "Zachio");
+document.getElementById("player-name").textContent = player.name;
+player.spaceship = true
+
 let currentSeed = 0;  // Initial seed
 
-window.onload = function() {
+window.onload = function () {
     updateStar(currentSeed);  // Call once when the page fully loads
 };
 

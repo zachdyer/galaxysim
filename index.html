@@ -1,34 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Planet Card</title>
+  <title>Galaxy Simulator</title>
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 </head>
-<body class="bg-dark">
 
-<div class="container mt-5">
-  <div class="row">
-    <div class="col-md-4">
-      <div class="card text-bg-dark">
-        <!-- Planet Image -->
-        <img id="navigator-image" src="img/stars/blue-star.webp" class="card-img-top" alt="Planet Image">
-        <div class="card-body">
-          <h5 id="navigator-title" class="card-title">Navigator</h5>
-          <div id="card-data"></div>
-          <p class="card-text mt-3"><strong>Places</strong></p>
-          <div class="navigator-controls d-grid gap-1"></div>  <!-- Buttons for each planet -->
+<body class="bg-dark text-light">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Galaxy Simulator</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <!-- <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="#">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Contact</a>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <div class="row">
+      <!-- Player Card -->
+      <div class="col-md-4">
+        <div class="card text-bg-dark">
+          <!-- Player Image -->
+          <img id="player-image" src="img/player/player-spaceship.webp" class="card-img-top" alt="Player Image">
+          <div class="card-body">
+            <h4 class="card-title">Player</h4>
+            <h5 id="player-name" class="card-title">Player Name</h5>
+            <div id="player-stats"></div>
+            <p class="card-text mt-3"><strong>Stats</strong></p>
+            <div>
+              Health: <span id="player-health-stat"></span>
+              <div class="progress">
+                <div id="player-health" class="progress-bar bg-danger" role="progressbar" style="width: 100%;"
+                  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div>
+              Energy: <span id="player-energy-stat"></span>
+              <div class="progress">
+                <div id="player-energy" class="progress-bar bg-warning" role="progressbar" style="width: 100%;"
+                  aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <div>
+              Experience: 0/100
+              <div class="progress">
+                <div id="player-experience" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0"
+                  aria-valuemin="0" aria-valuemax="100">0%</div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card text-bg-dark">
+          <!-- Planet Image -->
+          <img id="navigator-image" src="img/stars/blue-star.webp" class="card-img-top" alt="Planet Image">
+          <div class="card-body">
+            <h4 class="card-title">Navigator</h4>
+            <h5 id="navigator-title" class="card-title">Navigator</h5>
+            <div id="card-data"></div>
+            <p class="card-text mt-3"><strong>Places</strong></p>
+            <div class="navigator-controls d-grid gap-1"></div> <!-- Buttons for each planet -->
+          </div>
+        </div>
+      </div>
+      <!-- Interactions Card -->
+      <div class="col-md-4">
+        <div class="card text-bg-dark">
+          <img id="interactions-image" src="img/player/player-avatar.webp" class="card-img-top" alt="Player Image">
+          <div class="card-body">
+            <h4 class="card-title">Interactions</h4>
+            <div id="interaction-controls" class="d-grid gap-1"></div> <!-- Buttons for each planet -->
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="js/galaxysim.js"></script>
+  <!-- Footer -->
+  <footer class="bg-dark text-center text-light py-3 mt-5">
+    <div class="container">
+      <p class="mb-0">&copy; 2024 Galaxy Simulator. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/galaxysim.js"></script>
 </body>
+
 </html>
